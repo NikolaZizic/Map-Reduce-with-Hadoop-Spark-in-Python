@@ -1,36 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Jun  6 20:51:18 2021
-
-@author: 850
-"""
-
-import findspark
-
-
-
-findspark.init(("C:\Spark\spark-3.1.2-bin-hadoop3.2"))
-
-from pyspark.sql.session import SparkSession
-
-spark = SparkSession.builder.master("local[*]").getOrCreate()
-sc = spark.sparkContext
-
-
-def clean_str(line):
-  line = line.lower().replace(".","").replace("?","")
-  return line.split(" ")
-
-book = sc.textFile("Sherlock.txt")
-book = book.filter(lambda x : len(x)>0)
-word_count = book.flatMap(clean_str).map(lambda w : (w,1)).reduceByKey(lambda a,b: a+b)
-word_count.takeOrdered(50,key=lambda pair: -pair[1])
-
-
-
-
-
-
 
 # 1. Editing the data : adding a year column and a word_count column 
 
@@ -54,9 +21,9 @@ df.dtypes
 import findspark
 from pyspark.sql.session import SparkSession
 
-findspark.init(("C:\Spark\spark-3.1.2-bin-hadoop3.2"))
+findspark.init(("Spark location"))
 
-spark = SparkSession.builder.master("local[*]").getOrCreate()
+spark = SparkSession.builder.master("local[*]").getOrCreate() #local[*] to run with all available cores
 sc = spark.sparkContext
 
 df2 = spark.read.format("csv").option("header", "true").load("abcnews-date-text_edit.csv")
