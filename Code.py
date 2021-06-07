@@ -49,8 +49,8 @@ cum_count_per_year.takeOrdered(50,key=lambda pair: -pair[1])
 # 4. Basic bar plot visualizatioin 
 
 
-an_freq_df = cum_count_per_year.toDF(["Words per title for each year","count"])
-pdDF = an_freq_df.orderBy('Words per title for each year',ascending=True).toPandas()
-pdDF.plot(x='Words per title for each year', y='count', kind='bar', color='red',rot=60,figsize=(200,50))
+cum_count_per_year_df = cum_count_per_year.toDF(["Words per title for each year","count"])
+DF = cum_count_per_year_df.orderBy('Words per title for each year',ascending=True).toPandas()
+DF.plot(x='Words per title for each year', y='count', kind='bar', color='red',rot=60,figsize=(200,50))
 display()
 
